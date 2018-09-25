@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,json
+from flask import Flask,render_template,request
 from werkzeug import generate_password_hash, check_password_hash
 from flaskext.mysql import MySQL
 app=Flask(__name__)
