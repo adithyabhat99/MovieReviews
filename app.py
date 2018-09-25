@@ -39,5 +39,22 @@ def sign():
 				return '<h1>Error</h1>'
 		else:
 			return '<h1>Enter all the fields</h1>'
+@app.route('/login',methods=['POST','GET'])
+def log():
+	fusr=request.form['usr']
+	fpassw=request.form['passw']
+	if fusr and fpassw:
+		conn=mysql.connect()
+		cursor=conn.cursor()
+		query="select * from users.user where usr='{0}' and passw='{1}'".format(fusr,fpassw)
+		cursor.execute(query)
+		data=cursor.fetchone()
+		if data is None:
+			return '<h1>Username or Password is wrong</h1>'
+		else:
+			return '<h1>Successful Login!</h1>'
+	else:
+		return '<h1>Enter all the fields</h1>'
+
 if __name__=='__main__':
 	app.run(debug=True)
