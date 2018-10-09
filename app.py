@@ -1,8 +1,16 @@
-from flask import Flask,render_template,request
-from werkzeug import generate_password_hash, check_password_hash
+from flask import Flask,render_template,request,session
+#from werkzeug import generate_password_hash, check_password_hash
+from flask_session import Session
 from flaskext.mysql import MySQL
 app=Flask(__name__)
 mysql = MySQL(app)
+SESSION_TYPE='memcache'
+app.secret_key='secret'
+app.config['SESSION_TYPE']='filesystem'
+sess=Session()
+sess.init_app(app)
+
+Session(app)
 # MySQL configurations
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = '123654654'
@@ -34,7 +42,7 @@ def sign():
 			data=cursor.fetchall()
 			if len(data) is 0:
 				conn.commit()
-				return '<h1>Success</h1>'
+				return '<h1>Success</h1><br><a href="page1.html">Click to continue</a>'
 			else:
 				return '<h1>Error</h1>'
 		else:
@@ -50,11 +58,31 @@ def log():
 		cursor.execute(query)
 		data=cursor.fetchone()
 		if data is None:
-			return '<h1>Username or Password is wrong</h1>'
+			return '<h1>Username or Password is wrong</h1><br><a href="login.html">Login</a><br><a href="signin.html"</a>'
 		else:
-			return '<h1>Successful Login!</h1>'
+			session['usr']=fusr
+			return(render_template('page1.html',usr=fusr))
 	else:
-		return '<h1>Enter all the fields</h1>'
+		return '<h1>Enter all the fields</h1><br><a href="login.html">Login</a><br><a href="signin.html"</a>'
+
+
+@app.route('/page1.html')
+def page1():
+	return(render_template('page1.html'))
+
+@app.route('/feedback',methods=['POST','GET'])
+def feed():
+	feedback=request.form['feedback']
+	conn=mysql.connect()
+	cursor=conn.cursor()
+	query="insert into users.feedback(usr,feedback) values('{0}','{1}')".format(session['usr'],feedback)
+	try:
+		cursor.execute(query)
+		conn.commit()
+		return '<h1>Feedback sent succesfully :)</h1>'
+	except:
+		return '<h1>Eroor :(</h1>'
+
 
 if __name__=='__main__':
 	app.run(debug=True)
