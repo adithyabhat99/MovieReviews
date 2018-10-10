@@ -94,6 +94,8 @@ def admin():
 	passw=request.form['passw']
 	if passw==adpass:
 		return(render_template('admin.html'))
+	else:
+		return "<h1>Wrong Password</h1>"
 @app.route('/review',methods=['POST'])
 def review():
 	ftitle=request.form['title']
@@ -101,12 +103,16 @@ def review():
 	conn=mysql.connect()
 	cursor=conn.cursor()
 	query="insert into users.reviews(title,review) values('{0}','{1}')".format(ftitle,freview)
-	try:
-		cursor.execute(query)
-		conn.commit()
-		return "<h1>Success :)</h1>"
-	except:
-		return "<h1>Error</h1>"
+	cursor.execute(query)
+	data=cursor.fetchall()
+	if ftitle and freview:
+		if len(data) is 0:
+			conn.commit()
+			return '<h1>Success</h1>'
+		else:
+			return '<h1>Error</h1>'
+	else:
+		return "<h1>Enter all the fields</h1>"
 
 
 if __name__=='__main__':
