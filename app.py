@@ -9,6 +9,7 @@ app.secret_key='secret'
 app.config['SESSION_TYPE']='filesystem'
 sess=Session()
 sess.init_app(app)
+adpass='123654654'
 
 Session(app)
 # MySQL configurations
@@ -54,6 +55,7 @@ def log():
 	if fusr and fpassw:
 		conn=mysql.connect()
 		cursor=conn.cursor()
+		#hashed_password = generate_password_hash(fpassw)
 		query="select * from users.user where usr='{0}' and passw='{1}'".format(fusr,fpassw)
 		cursor.execute(query)
 		data=cursor.fetchone()
@@ -82,6 +84,29 @@ def feed():
 		return '<h1>Feedback sent succesfully :)</h1>'
 	except:
 		return '<h1>Eroor :(</h1>'
+
+@app.route('/adminlog.html')
+def adlog():
+	return(render_template('adminlog.html'))
+
+@app.route('/admin',methods=['POST'])
+def admin():
+	passw=request.form['passw']
+	if passw==adpass:
+		return(render_template('admin.html'))
+@app.route('/review',methods=['POST'])
+def review():
+	ftitle=request.form['title']
+	freview=request.form['review']
+	conn=mysql.connect()
+	cursor=conn.cursor()
+	query="insert into users.reviews(title,review) values('{0}','{1}')".format(ftitle,freview)
+	try:
+		cursor.execute(query)
+		conn.commit()
+		return "<h1>Success :)</h1>"
+	except:
+		return "<h1>Error</h1>"
 
 
 if __name__=='__main__':
