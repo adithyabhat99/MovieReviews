@@ -1,12 +1,17 @@
 <html>
 <head> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"></head>
 <body>
-	<h1>All the links to  movie reviews are here</h1>
+	<h1>All the feedbacks are here</h1>
 <table border="1" cellpadding="5" cellspacing="5">
+{% for row in usr %}
+    <tr>
+    {% for d in row %}
+        <td>{{d}}</td>
+    {% endfor %}
 {% for row in data %}
     <tr>
     {% for d in row %}
-        <td style="cursor:pointer" onclick="location.href='re{{d}}.html'">{{d}}</td>
+        <td>{{d}}</td>
     {% endfor %}
     </tr>
 {% endfor %}
