@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Forrest Gump</title>
-</head>
+<style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</style>
+<body>
 <body>
 	<h1>Hey, {{usr}} Successful Login!</h1><br></a>
-<h3>Forrest gump is a really good movie,Tom Hanks acted really well which made him win an oscar</h3>
-	<form action='feedback' method='POST' >
-		Feedback<input type='text' name='feedback'>
-		<input type='submit' value='feedb'>
-	</form>
+	<h3>For all the reviews available, click below</h3><br>
+	<a href='home.html'>Home</a><br>
+	<a href='logout'>Logout</a>
 </body>
 </html>

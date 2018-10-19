@@ -1,0 +1,18 @@
+<html>
+<style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</style>
+<body>
+	<h1>All the links to  movie reviews are here</h1>
+<table border="1" cellpadding="5" cellspacing="5">
+{% for row in data %}
+    <tr>
+    {% for d in row %}
+        <td style="cursor:pointer" onclick="location.href='re{{d}}.html'">{{d}}</td>
+    {% endfor %}
+    </tr>
+{% endfor %}
+</table>
+<br>
+</body>
+</html>
