@@ -155,7 +155,7 @@ def fee():
 def convert(title,review):
 	x='templates/re{}.html'.format(title)
 	y=open(x,'w')
-	z="""<!DOCTYPE html><html><head> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"></head><body><h1>{0}</h1><h2>{1}</h2><form action='feedback' method='POST' >Feedback<input type='text' name='feedback'><input type='submit' value='feedb'></form><a href='home.html'>Home</a><br><a href='logout'>Logout</a></body></html>""".format(title,review)
+	z="""<!DOCTYPE html><html><head> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"></head><body><h1>{0}</h1><h2>{1}</h2><form action='feedback' method='POST' >Feedback<input type='text' name='feedback'><input type='submit' class="btn btn-primary" value='feedb'></form><a href='home.html'>Home</a><br><a href='logout'>Logout</a></body></html>""".format(title,review)
 	y.write(z)
 	y.close()
 
