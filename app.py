@@ -29,12 +29,6 @@ def get_dir(path):
 	else:
 		return(render_template('login.html'))
 
-@app.route('/login.html')
-def login():
-	return(render_template('login.html'))
-@app.route('/sign.html')
-def signin():
-	return(render_template("sign.html"))
 @app.route('/signin',methods=['POST','GET'])
 def sign():
 	if request.method=='POST':
@@ -99,14 +93,11 @@ def feed():
 	except:
 		return '<h1>Eroor :(</h1>'
 
-@app.route('/adminlog.html')	
-def adlog():
-	return(render_template('adminlog.html'))
-
 @app.route('/admin',methods=['POST'])
 def admin():
 	passw=request.form['passw']
 	if passw==adpass:
+		session['admin']=admin
 		return(render_template('admin.html'))
 	else:
 		return "<h1>Wrong Password</h1>"
@@ -118,21 +109,26 @@ def review():
 	conn=mysql.connect()
 	cursor=conn.cursor()
 	query="insert into users.reviews(title,review) values('{0}','{1}')".format(ftitle,freview)
-	cursor.execute(query)
-	data=cursor.fetchall()
-	if ftitle and freview:
-		if len(data) is 0:
-			conn.commit()
-			convert(ftitle,freview)
-			return '<h1>Success</h1>'
+	if 'admin' in session:
+		cursor.execute(query)
+		data=cursor.fetchall()
+		if ftitle and freview:
+			if len(data) is 0:
+				conn.commit()
+				convert(ftitle,freview)
+				return '<h1>Success</h1>'
+			else:
+				return '<h1>Error</h1>'
 		else:
-			return '<h1>Error</h1>'
-	else:
-		return "<h1>Enter all the fields</h1>"
+			return "<h1>Enter all the fields</h1>"
 
 @app.route('/admin.html')
 def admin_page():
 	return(render_template('adminlog.html'))
+
+@app.route('/sign.html')
+def signup():
+	return(render_template('sign.html'))
 
 @app.route('/home.html')
 def home():
