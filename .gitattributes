@@ -1,1 +1,3 @@
-templates/* linguist-vendored
+* linguist-vendored
+*.py lingiust-vendored=false
+
