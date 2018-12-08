@@ -25,7 +25,12 @@ def hello(path):
 @app.route('/<path:path>')
 def get_dir(path):
 	if 'usr' in session:
-		return(render_template('{}'.format(path)))
+		query="select review from users.reviews where title='{}';".format(path)
+		conn=mysql.connect()
+		cursor=conn.cursor()
+		cursor.execute(query)
+		data=cursor.fetchall()
+		return(render_template('movie.html',tit=path,rev=data))
 	else:
 		return(render_template('login.html'))
 
@@ -115,7 +120,7 @@ def review():
 		if ftitle and freview:
 			if len(data) is 0:
 				conn.commit()
-				convert(ftitle,freview)
+				#(ftitle,freview)
 				return '<h1>Success</h1>'
 			else:
 				return '<h1>Error</h1>'
@@ -148,12 +153,12 @@ def fee():
 	data=cursor.fetchall()
 	return(render_template('feedback.html',data=data))
 
-def convert(title,review):
-	x='templates/re{}.html'.format(title)
-	y=open(x,'w')
-	z="""<!DOCTYPE html><html><head> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"></head><body><h1>{0}</h1><h2>{1}</h2><form action='feedback' method='POST' >Feedback<input type='text' name='feedback'><input type='submit' class="btn btn-primary" value='feedb'></form><a href='home.html'>Home</a><br><a href='logout'>Logout</a></body></html>""".format(title,review)
-	y.write(z)
-	y.close()
+#def convert(title,review):
+	#x='templates/re{}.html'.format(title)
+	#y=open(x,'w')
+	#z="""<!DOCTYPE html><html><head> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"></head><body><h1>{0}</h1><h2>{1}</h2><form action='feedback' method='POST' >Feedback<input type='text' name='feedback'><input type='submit' class="btn btn-primary" value='feedb'></form><a href='home.html'>Home</a><br><a href='logout'>Logout</a></body></html>""".format(title,review)
+	#y.write(z)
+	#y.close()
 
 if __name__=='__main__':
 	app.run(debug=True)

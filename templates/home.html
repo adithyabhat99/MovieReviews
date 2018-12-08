@@ -6,7 +6,7 @@
 {% for row in data %}
     <tr>
     {% for d in row %}
-        <td style="cursor:pointer" onclick="location.href='re{{d}}.html'">{{d}}</td>
+        <td style="cursor:pointer" onclick="location.href='{{d}}'">{{d}}</td>
     {% endfor %}
     </tr>
 {% endfor %}
