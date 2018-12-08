@@ -30,7 +30,10 @@ def get_dir(path):
 		cursor=conn.cursor()
 		cursor.execute(query)
 		data=cursor.fetchall()
-		return(render_template('movie.html',tit=path,rev=data))
+		if data is None:
+			return(render_template('index.html'))
+		else:
+			return(render_template('movie.html',tit=path,rev=data))
 	else:
 		return(render_template('login.html'))
 
